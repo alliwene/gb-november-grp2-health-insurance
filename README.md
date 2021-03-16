@@ -6,13 +6,13 @@ Dataset used in this project is the Individual Recode section of the 2018 Nigeri
 
 Group Members:
 
-* Opeyemi Idris <a href="https://www.linkedin.com/in/ " alt="Linkedin"><img src="https://github.com/imdhruv99/imdhruv99/blob/master/readme/linkedin.png"></a> <a href="https://github.com/hardcore05" alt="GitHub"><img src="https://github.com/imdhruv99/imdhruv99/blob/master/readme/github.png"></a>
-* Shakiru Muraina <a href="https://www.linkedin.com/in/shakiru-muraina-a71460122/ " alt="Linkedin"><img src="https://github.com/imdhruv99/imdhruv99/blob/master/readme/linkedin.png"></a> <a href="https://github.com/Debare" alt="GitHub"><img src="https://github.com/imdhruv99/imdhruv99/blob/master/readme/github.png"></a>
-* Boluwatife Adewale <a href="https://www.linkedin.com/in/boluwatifeadewale/ " alt="Linkedin"><img src="https://github.com/imdhruv99/imdhruv99/blob/master/readme/linkedin.png"></a> <a href="https://github.com/BBLinus" alt="GitHub"><img src="https://github.com/imdhruv99/imdhruv99/blob/master/readme/github.png"></a>
-* Uthman Allison <a href="https://www.linkedin.com/in/uthman-allison-b8b276144/" alt="Linkedin"><img src="https://github.com/imdhruv99/imdhruv99/blob/master/readme/linkedin.png"></a> <a href="https://github.com/alliwene" alt="GitHub"><img src="https://github.com/imdhruv99/imdhruv99/blob/master/readme/github.png"></a>
+* Opeyemi Idris <a href="https://www.linkedin.com/in/ " alt="Linkedin"><img height="20" src="https://github.com/imdhruv99/imdhruv99/blob/master/readme/linkedin.png"></a> <a href="https://github.com/hardcore05" alt="GitHub"><img height="20" src="https://github.com/imdhruv99/imdhruv99/blob/master/readme/github.png"></a>
+* Shakiru Muraina <a href="https://www.linkedin.com/in/shakiru-muraina-a71460122/ " alt="Linkedin"><img height="20" src="https://github.com/imdhruv99/imdhruv99/blob/master/readme/linkedin.png"></a> <a href="https://github.com/Debare" alt="GitHub"><img height="20" src="https://github.com/imdhruv99/imdhruv99/blob/master/readme/github.png"></a>
+* Boluwatife Adewale <a href="https://www.linkedin.com/in/boluwatifeadewale/ " alt="Linkedin"><img height="20" src="https://github.com/imdhruv99/imdhruv99/blob/master/readme/linkedin.png"></a> <a href="https://github.com/BBLinus" alt="GitHub"><img height="20" src="https://github.com/imdhruv99/imdhruv99/blob/master/readme/github.png"></a>
+* Uthman Allison <a href="https://www.linkedin.com/in/uthman-allison-b8b276144/" alt="Linkedin"><img height="20" src="https://github.com/imdhruv99/imdhruv99/blob/master/readme/linkedin.png"></a> <a href="https://github.com/alliwene" alt="GitHub"><img height="20" src="https://github.com/imdhruv99/imdhruv99/blob/master/readme/github.png"></a>
 
 Teaching Assistant:
-* Mukwevho Mukovhe <a href="https://www.linkedin.com/in/mukwevho-justice/" alt="Linkedin"><img src="https://github.com/imdhruv99/imdhruv99/blob/master/readme/linkedin.png"></a> <a href="https://github.com/Mikovhe" alt="GitHub"><img src="https://github.com/imdhruv99/imdhruv99/blob/master/readme/github.png"></a>
+* Mukwevho Mukovhe <a href="https://www.linkedin.com/in/mukwevho-justice/" alt="Linkedin"><img height="20" src="https://github.com/imdhruv99/imdhruv99/blob/master/readme/linkedin.png"></a> <a href="https://github.com/Mikovhe" alt="GitHub"><img height="20" src="https://github.com/imdhruv99/imdhruv99/blob/master/readme/github.png"></a>
 
 
 Checklist:
