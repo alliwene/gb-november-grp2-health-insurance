@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import pickle
 from PIL import Image 
-import numpy as np
+import numpy as np 
 from matplotlib.backends.backend_agg import RendererAgg
 _lock = RendererAgg.lock
 
@@ -12,10 +12,6 @@ _lock = RendererAgg.lock
 plt.style.use('seaborn-notebook')
 sns.set(context='paper', font='monospace', font_scale=3)
 
-
-# this result would help insurance companies and public health 
-# stakeholders make smarter decisions on targeted ads to potential customers and improve health 
-# insurance penetration amongst the Nigerian populace. 
 
 def main():
     # Load cleaned dataset
@@ -97,9 +93,6 @@ def main():
         [Example CSV input file](https://raw.githubusercontent.com/alliwene/gb-november-grp2-health-insurance/main/data/data_sample.csv?token=AHCUSLFXQUYKYB4LQYLY2PTAMYJUM)
         """)
 
-        # Load cleaned dataset
-        # insurance_clean = pd.read_csv('data/data_clean.csv')
-        # insurance = insurance_clean.drop(columns=['target']) 
 
 		# Collects user input features into dataframe
         uploaded_file = st.sidebar.file_uploader("Upload your input CSV file", type=["csv"])
