@@ -7,7 +7,7 @@ from PIL import Image
 import numpy as np
 from matplotlib.backends.backend_agg import RendererAgg
 _lock = RendererAgg.lock
-from sklearn.preprocessing import LabelEncoder
+
 
 plt.style.use('seaborn-notebook')
 sns.set(context='paper', font='monospace', font_scale=3)
@@ -18,6 +18,10 @@ sns.set(context='paper', font='monospace', font_scale=3)
 # insurance penetration amongst the Nigerian populace. 
 
 def main():
+    # Load cleaned dataset
+    insurance_clean = pd.read_csv('data/data_clean.csv')
+    insurance = insurance_clean.drop(columns=['target'])
+
     page = st.sidebar.selectbox('Choose a page',['About App','Insurance Subscription Analysis','Prediction and Evaluation'])
 
     if page == 'About App':
@@ -40,7 +44,7 @@ def main():
 
         col1,mid,col2 = st.beta_columns(3)
         with col1:
-            st.image('images/ironman2.jpg',width=300)
+            st.image('images/ope.jpg',width=300)
             html = f"Opeyemi Idris <a href='https://github.com/hardcore05' alt='GitHub'><img height='20' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAA7AAAAOwBeShxvQAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAMdSURBVFiFxZfLb9RWFMZ/99oeG3uYyZuUlD7UBgkCFCEkqKoiUKUuaOgCNhXTXdUisULdsOMPQAJWgAQSbBqWrEAtWzY8Fm0kQkBKKzXNJEI8JqOJx7FnPL4sZnAChdhRQuZbXY/POd835557jq+ghQmlTCuoH0NwFMU2wGF1UUUwhmLEN41Lg0IEAAJgyvMGkPpN4ItVJn0XRonC4U22PS1a//zeGpLHInzT2CutoH6sDeQAO62g/rNEUWgDeROCgpjya3NAtk0SXNlGcoCsbCM5APpyHRoKHlZ9/pzzeRqEAGwwdXatt9jqWGhiefHElF9TaY3vVzwuFmf5z6+/9f3HlsHxD7vYnVu3+gJGnpS5OlMmyVgCP23s5If+fCoBqWrg9xcuV2bKdBsaX3XY6OL/eTak4OsOm7yucXlmllslN5WAxBoohw0uFEsAfJm3OfFRN9NByD9ejX5TRwAzQchmO8MHps7pf59zq+RyoVhib34deU1bmYAbz+bwGhEAQdTcgAFTZ8BccB20M/E6UE1bN4y48WyOQn/HkvETt+BOZT5eH+pdn2TO9725Bd/y/BKWKQVMt46arUm2OGZiwG2ORUaK13xXJMCPmilVtGZ3AoRo9goAv7UdKxLQrTeLaL4RMeHVEgM+qgY0VFNBj7F0AaYSsCNrxevzxVJckG+DG0bxiQHY7ljvtE0t4GBPc1Yd7svRUIofx6a5WJxlclE3/Nurcb5YojBe5HE1iH//LkXRJgrYnrXY12nzxwuXE5u6+czOcK/ikdUWXE0puP60ghsuZOdAl8NQiqJN1YqrjYhfJ57gSMnJT3rpMSTaom4YRIqDo5Px82bH5MznG7C15EabqhU7muTcYD8dhuTo2BTf/jUZV/qb+KbL4WxKcljGOLY1yalP+3jQ63O77CEXnUldCI705djf6bA1RdoXY1nj+H2g7V9EEkg3N98PKhLFeNvoBeMSwW9tE6AYeXU1uwvsXGP60Ypp7JGDQgRE4TAwupbkROHwkBC1+DQ/VCqTC+q/ICi0ruerfWFxETxAca1iGpeGhKgBvARKYRTDyS8igAAAAABJRU5ErkJggg=='></a>"
             st.markdown(html, unsafe_allow_html=True)
         with col2:
@@ -49,7 +53,7 @@ def main():
             st.markdown(html, unsafe_allow_html=True)
         col1,mid,col2 = st.beta_columns(3)
         with col1:
-            st.image('images/ironman2.jpg',width=300)
+            st.image('images/bolu.jpg',width=300)
             html = f"Boluwatife Adewale <a href='https://github.com/BBLinus' alt='GitHub'><img height='20' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAA7AAAAOwBeShxvQAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAMdSURBVFiFxZfLb9RWFMZ/99oeG3uYyZuUlD7UBgkCFCEkqKoiUKUuaOgCNhXTXdUisULdsOMPQAJWgAQSbBqWrEAtWzY8Fm0kQkBKKzXNJEI8JqOJx7FnPL4sZnAChdhRQuZbXY/POd835557jq+ghQmlTCuoH0NwFMU2wGF1UUUwhmLEN41Lg0IEAAJgyvMGkPpN4ItVJn0XRonC4U22PS1a//zeGpLHInzT2CutoH6sDeQAO62g/rNEUWgDeROCgpjya3NAtk0SXNlGcoCsbCM5APpyHRoKHlZ9/pzzeRqEAGwwdXatt9jqWGhiefHElF9TaY3vVzwuFmf5z6+/9f3HlsHxD7vYnVu3+gJGnpS5OlMmyVgCP23s5If+fCoBqWrg9xcuV2bKdBsaX3XY6OL/eTak4OsOm7yucXlmllslN5WAxBoohw0uFEsAfJm3OfFRN9NByD9ejX5TRwAzQchmO8MHps7pf59zq+RyoVhib34deU1bmYAbz+bwGhEAQdTcgAFTZ8BccB20M/E6UE1bN4y48WyOQn/HkvETt+BOZT5eH+pdn2TO9725Bd/y/BKWKQVMt46arUm2OGZiwG2ORUaK13xXJMCPmilVtGZ3AoRo9goAv7UdKxLQrTeLaL4RMeHVEgM+qgY0VFNBj7F0AaYSsCNrxevzxVJckG+DG0bxiQHY7ljvtE0t4GBPc1Yd7svRUIofx6a5WJxlclE3/Nurcb5YojBe5HE1iH//LkXRJgrYnrXY12nzxwuXE5u6+czOcK/ikdUWXE0puP60ghsuZOdAl8NQiqJN1YqrjYhfJ57gSMnJT3rpMSTaom4YRIqDo5Px82bH5MznG7C15EabqhU7muTcYD8dhuTo2BTf/jUZV/qb+KbL4WxKcljGOLY1yalP+3jQ63O77CEXnUldCI705djf6bA1RdoXY1nj+H2g7V9EEkg3N98PKhLFeNvoBeMSwW9tE6AYeXU1uwvsXGP60Ypp7JGDQgRE4TAwupbkROHwkBC1+DQ/VCqTC+q/ICi0ruerfWFxETxAca1iGpeGhKgBvARKYRTDyS8igAAAAABJRU5ErkJggg=='></a>"
             st.markdown(html, unsafe_allow_html=True)
         with col2:
@@ -59,6 +63,7 @@ def main():
 
     if page == "Insurance Subscription Analysis":
         st.title("Explore Your Dataset")
+        
         # data = st.file_uploader("Only csv files allowed",type=['csv'])
 
         # if data:
@@ -93,8 +98,8 @@ def main():
         """)
 
         # Load cleaned dataset
-        insurance_clean = pd.read_csv('data/data_clean.csv')
-        insurance = insurance_clean.drop(columns=['target'])
+        # insurance_clean = pd.read_csv('data/data_clean.csv')
+        # insurance = insurance_clean.drop(columns=['target']) 
 
 		# Collects user input features into dataframe
         uploaded_file = st.sidebar.file_uploader("Upload your input CSV file", type=["csv"])
@@ -126,13 +131,6 @@ def main():
             for key, value in data.items():
                 input_df[key] = value
 
-        # else:
-        #     def user_input_features():
-        #         data = {}
-        #         features = pd.DataFrame(data, index=[0])
-        #         return features
-            # input_df = user_input_features()
-           
 
             # Combines user input features with cleaned dataset
             # This will be useful for the encoding phase
