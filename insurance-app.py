@@ -1,3 +1,4 @@
+# import libraries
 import streamlit as st
 import pandas as pd 
 import matplotlib.pyplot as plt 
@@ -5,6 +6,7 @@ import seaborn as sns
 import pickle
 from PIL import Image 
 import numpy as np 
+from sklearn.ensemble import RandomForestClassifier
 from matplotlib.backends.backend_agg import RendererAgg
 _lock = RendererAgg.lock
 
@@ -14,18 +16,12 @@ sns.set(context='paper', font='monospace', font_scale=3)
 
 
 def main():
-    # Load cleaned dataset
-    insurance_clean = pd.read_csv('data/data_clean.csv')
-    insurance = insurance_clean.drop(columns=['target'])
-
-    page = st.sidebar.selectbox('Choose a page',['About App','Insurance Subscription Analysis','Prediction and Evaluation'])
+    page = st.sidebar.selectbox('Choose a page',['About App','Prediction and Evaluation'])
 
     if page == 'About App':
         st.title('Analysis and Prediction of Health Insurance Subscription in Nigeria')
         image = Image.open('images/GB.png')
         st.image(image)
-        # st.image("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQk6MWvMt4EgDEKS4S6Y4z_HGlIYmUomW9Llg&usqp=CAU.png", 
-        # 	width=480)
         
         st.markdown("""
 		This app predicts whether an individual would take up an health insurance policy or not leveraging 
@@ -57,33 +53,6 @@ def main():
             html = f"Uthman Allison <a href='https://github.com/alliwene' alt='GitHub'><img height='20' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAA7AAAAOwBeShxvQAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAMdSURBVFiFxZfLb9RWFMZ/99oeG3uYyZuUlD7UBgkCFCEkqKoiUKUuaOgCNhXTXdUisULdsOMPQAJWgAQSbBqWrEAtWzY8Fm0kQkBKKzXNJEI8JqOJx7FnPL4sZnAChdhRQuZbXY/POd835557jq+ghQmlTCuoH0NwFMU2wGF1UUUwhmLEN41Lg0IEAAJgyvMGkPpN4ItVJn0XRonC4U22PS1a//zeGpLHInzT2CutoH6sDeQAO62g/rNEUWgDeROCgpjya3NAtk0SXNlGcoCsbCM5APpyHRoKHlZ9/pzzeRqEAGwwdXatt9jqWGhiefHElF9TaY3vVzwuFmf5z6+/9f3HlsHxD7vYnVu3+gJGnpS5OlMmyVgCP23s5If+fCoBqWrg9xcuV2bKdBsaX3XY6OL/eTak4OsOm7yucXlmllslN5WAxBoohw0uFEsAfJm3OfFRN9NByD9ejX5TRwAzQchmO8MHps7pf59zq+RyoVhib34deU1bmYAbz+bwGhEAQdTcgAFTZ8BccB20M/E6UE1bN4y48WyOQn/HkvETt+BOZT5eH+pdn2TO9725Bd/y/BKWKQVMt46arUm2OGZiwG2ORUaK13xXJMCPmilVtGZ3AoRo9goAv7UdKxLQrTeLaL4RMeHVEgM+qgY0VFNBj7F0AaYSsCNrxevzxVJckG+DG0bxiQHY7ljvtE0t4GBPc1Yd7svRUIofx6a5WJxlclE3/Nurcb5YojBe5HE1iH//LkXRJgrYnrXY12nzxwuXE5u6+czOcK/ikdUWXE0puP60ghsuZOdAl8NQiqJN1YqrjYhfJ57gSMnJT3rpMSTaom4YRIqDo5Px82bH5MznG7C15EabqhU7muTcYD8dhuTo2BTf/jUZV/qb+KbL4WxKcljGOLY1yalP+3jQ63O77CEXnUldCI705djf6bA1RdoXY1nj+H2g7V9EEkg3N98PKhLFeNvoBeMSwW9tE6AYeXU1uwvsXGP60Ypp7JGDQgRE4TAwupbkROHwkBC1+DQ/VCqTC+q/ICi0ruerfWFxETxAca1iGpeGhKgBvARKYRTDyS8igAAAAABJRU5ErkJggg=='></a>"
             st.markdown(html, unsafe_allow_html=True)
 
-    if page == "Insurance Subscription Analysis":
-        st.title("Explore Your Dataset")
-        
-        # data = st.file_uploader("Only csv files allowed",type=['csv'])
-
-        # if data:
-        #     data = pd.read_csv(data)
-
-        #     st.title("Look at the DataFrame")
-        #     st.dataframe(data)
-
-        #     with st.beta_expander("Visualize the data?"):
-        #         dim=(15.0,10.0)
-        #         fig = plt.figure(figsize=dim)
-
-        #         viz_page = st.sidebar.selectbox('choose visual',['Count Plot','Bar Chart', 'Pie chart'])
-
-        #         if viz_page == "Count Plot":
-        #             columns = data.columns
-        #             x = st.selectbox('choose column',columns)
-                    
-                    
-        #             sns.countplot(x=x,data=data)
-
-
-        #             st.pyplot(fig)
-
 
     if page == 'Prediction and Evaluation':
         st.title('Predicting Health Insurance Subscription')
@@ -93,6 +62,9 @@ def main():
         [Example CSV input file](https://raw.githubusercontent.com/alliwene/gb-november-grp2-health-insurance/main/data/data_sample.csv?token=AHCUSLFXQUYKYB4LQYLY2PTAMYJUM)
         """)
 
+        # Load cleaned dataset
+        insurance_clean = pd.read_csv('data/data_clean.csv')
+        insurance = insurance_clean.drop(columns=['target'])
 
 		# Collects user input features into dataframe
         uploaded_file = st.sidebar.file_uploader("Upload your input CSV file", type=["csv"])
@@ -140,7 +112,7 @@ def main():
             input_df = df[:1] # Selects only the first row (the user input data)
 
             # remove duplicate columns
-            input_df = input_df.loc[:,~input_df.columns.duplicated()]
+            input_df = input_df.loc[:,~input_df.columns.duplicated()] 
             
             st.subheader('User Input features')
             st.write(input_df)
