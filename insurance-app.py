@@ -6,7 +6,6 @@ import seaborn as sns
 import pickle
 from PIL import Image 
 import numpy as np 
-from sklearn.ensemble import RandomForestClassifier
 from matplotlib.backends.backend_agg import RendererAgg
 _lock = RendererAgg.lock
 
