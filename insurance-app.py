@@ -24,8 +24,8 @@ def main():
         st.image(image)
         
         st.markdown("""
-		This app predicts whether an individual would take up an health insurance policy or not leveraging 
-		a machine learning model. We would also investigate factors that most likely influence taking up an health 
+		This app predicts whether an individual would take up a health insurance policy or not leveraging 
+		a machine learning classification model. We would also investigate factors that most likely influence taking up a health 
 		insurance policy by an individual using the trained model. 
 
 		Data obtained from Individual Recode section of the 2018 Nigerian Demographic and
