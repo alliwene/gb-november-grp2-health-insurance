@@ -24,3 +24,6 @@ Checklist:
 * Model building and evaluation
 * Handle class imbalance using oversampling and undersampling
 * Models comparison
+* Hyperparamter Optimization
+* Create app with Streamlit
+* Deploy app
