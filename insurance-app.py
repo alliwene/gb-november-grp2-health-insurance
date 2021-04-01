@@ -6,6 +6,7 @@ import seaborn as sns
 import pickle
 from PIL import Image 
 import numpy as np 
+from sklearn.ensemble import RandomForestClassifier
 from matplotlib.backends.backend_agg import RendererAgg
 _lock = RendererAgg.lock
 
@@ -72,24 +73,47 @@ def main():
 
             internet = st.sidebar.selectbox('Use of internet',('Yes, last 12 months', 'Never', 'Yes, before last 12 months'))
             bank_acount = st.sidebar.selectbox('Account in bank',('Yes', 'No'))
+            attainment = st.sidebar.selectbox("Husband/partner's educational attainment", 
+                ('Complete secondary', 'No education', 'Higher', 'Complete primary',
+                    'Incomplete secondary', "Don't know", 'Incomplete primary'))
             internet_freq = st.sidebar.selectbox('Internet use frequency',('At least once a week', 'Almost every day', 'Not at all',
                 'Less than once a week'))
+            literacy = st.sidebar.selectbox('Literacy', ('Able to read whole sentence', 'Cannot read at all',
+                'Able to read only parts of sentence', 'Blind/visually impaired', 'No card with required language'))
             wealth_index = st.sidebar.slider('Wealth index', insurance['Wealth index factor score for urban/rural (5 decimals)'].min(), 
                 insurance['Wealth index factor score for urban/rural (5 decimals)'].max(),
                 float(input_df['Wealth index factor score for urban/rural (5 decimals)'][0]))
+            toilet = st.sidebar.selectbox('Type of toilet facility', 
+                ('Flush to piped sewer system', 'Flush to septic tank',
+                    'Flush to pit latrine', 'Pit latrine with slab',
+                    'Not a dejure resident', 'Pit latrine without slab/open pit',
+                    'No facility/bush/field', 'Ventilated Improved Pit latrine (VIP)',
+                    'Flush to somewhere else', 'Bucket toilet', 'Other',
+                    'Composting toilet', "Flush, don't know where",
+                    'Hanging toilet/latrine'))
             medical_help = st.sidebar.selectbox('Getting money needed for treatment', ('Not a big problem', 'Big problem'))
-            medical_visit = st.sidebar.selectbox('Visited health facility last 12 months', ('Yes', 'No'))
             residence = st.sidebar.selectbox('Type of place of residence', ('Urban', 'Rural'))
+            medical_visit = st.sidebar.selectbox('Visited health facility last 12 months', ('Yes', 'No'))
             tv_watch = st.sidebar.selectbox('Frequency of watching television',
                 ('At least once a week', 'Not at all', 'Less than once a week'))
+            edu_year = st.sidebar.selectbox('Highest year of education', 
+                ('3.0', '4.0', '2.0', '6.0', '1.0',
+                    'No years completed at level V106', '5.0', '8.0', '7.0'))
+            
             data = {'Use of internet': internet,
                     'Has an account in a bank or other financial institution': bank_acount,
+                    "Husband/partner's educational attainment": attainment,
                     'Frequency of using internet last month': internet_freq,
+                    'Literacy': literacy,
                     'Wealth index factor score for urban/rural (5 decimals)': wealth_index,
+                    'Type of toilet facility': toilet,
                     'Getting medical help for self: getting money needed for treatment': medical_help,
-                    'Visited health facility last 12 months': medical_visit,
                     'Type of place of residence': residence,
-                    'Frequency of watching television': tv_watch}
+                    'Visited health facility last 12 months': medical_visit,
+                    'Frequency of watching television': tv_watch,
+                    'Highest year of education': edu_year,
+                    }
+
 
             # Replace some values in input_ using data
             for key, value in data.items():
@@ -100,18 +124,21 @@ def main():
             # This will be useful for the encoding phase
             df = pd.concat([input_df,insurance],axis=0,ignore_index=True)
 
-            # get categorical features of df
-            cat_feat = df.select_dtypes(exclude = np.number).columns 
-            # st.write('cat_feat: {}'.format(len(cat_feat)))
+            @st.cache()
             # one hot encode categorical features 
-            for feat in cat_feat:
-                dummy = pd.get_dummies(df[feat], prefix=feat)
-                df = pd.concat([df,dummy], axis=1)
-                del df[feat]
-            input_df = df[:1] # Selects only the first row (the user input data)
+            def one_hot_encode(df):
+                # get categorical features of df
+                cat_feat = df.select_dtypes(exclude = np.number).columns 
+                for feat in cat_feat:
+                    dummy = pd.get_dummies(df[feat], prefix=feat)
+                    df = pd.concat([df,dummy], axis=1)
+                    del df[feat]
+                input_df = df[:1] # Selects only the first row (the user input data)
+                # remove duplicate columns
+                input_df = input_df.loc[:,~input_df.columns.duplicated()] 
+                return input_df
 
-            # remove duplicate columns
-            input_df = input_df.loc[:,~input_df.columns.duplicated()] 
+            input_df = one_hot_encode(df)
             
             st.subheader('User Input features')
             st.write(input_df)
@@ -124,7 +151,7 @@ def main():
             prediction_proba = load_clf.predict_proba(input_df)
 
             st.subheader('Prediction')
-            output = np.array(['Yes','No'])
+            output = np.array(['No','Yes'])
             st.write(output[prediction])
 
             st.subheader('Prediction Probability')
@@ -133,7 +160,7 @@ def main():
             # make feature importance plot 
             st.subheader('Feature Importance Plot')
             st.markdown('''
-                The top $20$ factors that most likely influence taking up an health insurance policy 
+                The top $30$ factors that most likely influence taking up an health insurance policy 
                 by an individual is plotted. Values of some of these factors would be moved
                 around to investigate its effect on our prediction. 
                 ''')
@@ -143,7 +170,7 @@ def main():
             
             with _lock:
                 fig = plt.figure(figsize=(20,15))
-                sns.barplot(x="Value", y="Feature", data=imp_data.iloc[:20])
+                sns.barplot(x="Value", y="Feature", data=imp_data.iloc[:30])
                 plt.ylabel('Feature Importance Score')
                 st.pyplot(fig)
 
