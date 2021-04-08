@@ -5,6 +5,8 @@ Contains [TheGradientBoost](https://thegradientboost.com/) November cohort Group
 
 Dataset used in this project is the Individual Recode section of the 2018 Nigerian Demographic and Health Survey [DHS](https://dhsprogram.com/data/dataset/Nigeria_Standard-DHS_2018.cfm) dataset. 
 
+Streamlit app built with pointers from this [repo](https://github.com/dataprofessor/streamlit_freecodecamp/tree/main/app_8_classification_penguins) and this [repo](https://github.com/Mikovhe/Streamlit_applications).
+
 Group Members:
 
 * Opeyemi Idris <a href="https://www.linkedin.com/in/moshood-opeyemi-idris-a63744b1/" alt="Linkedin"><img height="20" src="https://github.com/imdhruv99/imdhruv99/blob/master/readme/linkedin.png"></a> <a href="https://github.com/hardcore05" alt="GitHub"><img height="20" src="https://github.com/imdhruv99/imdhruv99/blob/master/readme/github.png"></a>
@@ -27,4 +29,4 @@ Checklist:
 * Models comparison
 * Hyperparamter Optimization
 * Create app with Streamlit
-* Deploy app
+* Deploy app with Heroku
