@@ -135,7 +135,7 @@ def main():
         with open(filename, 'rb') as f:
             s = f.read()
 
-        download_button_str = download_button(s, filename, 'Click here to download sample file')
+        download_button_str = download_button(s, filename, 'Click here to download sample input file')
         st.sidebar.markdown(download_button_str, unsafe_allow_html=True)
 
         # Load cleaned dataset
