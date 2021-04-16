@@ -63,9 +63,9 @@ def main():
         st.title('Predicting Health Insurance Subscription')
         st.sidebar.header('User Input Features')
 
-        st.sidebar.markdown("""
-        [Example CSV input file](https://raw.githubusercontent.com/alliwene/gb-november-grp2-health-insurance/main/data/data_sample.csv)
-        """)
+        # st.sidebar.markdown("""
+        # [Example CSV input file](https://raw.githubusercontent.com/alliwene/gb-november-grp2-health-insurance/main/data/data_sample.csv)
+        # """)
 
         def download_button(object_to_download, download_filename, button_text):
             """
@@ -135,7 +135,7 @@ def main():
         with open(filename, 'rb') as f:
             s = f.read()
 
-        download_button_str = download_button(s, filename, 'Click here to download sample input file')
+        download_button_str = download_button(s, filename, 'Download sample input CSV file')
         st.sidebar.markdown(download_button_str, unsafe_allow_html=True)
 
         # Load cleaned dataset
