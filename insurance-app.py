@@ -1,4 +1,9 @@
 # import libraries
+import base64
+import os
+import uuid
+import re
+
 import streamlit as st
 import pandas as pd 
 import matplotlib.pyplot as plt 
@@ -59,8 +64,79 @@ def main():
         st.sidebar.header('User Input Features')
 
         st.sidebar.markdown("""
-        [Example CSV input file](https://raw.githubusercontent.com/alliwene/gb-november-grp2-health-insurance/main/data/data_sample.csv?token=AHCUSLFXQUYKYB4LQYLY2PTAMYJUM)
+        [Example CSV input file](https://raw.githubusercontent.com/alliwene/gb-november-grp2-health-insurance/main/data/data_sample.csv)
         """)
+
+        def download_button(object_to_download, download_filename, button_text):
+            """
+            Generates a link to download the given object_to_download.
+
+            Params:
+            ------
+            object_to_download:  The object to be downloaded.
+            download_filename (str): filename and extension of file. e.g. mydata.csv
+            button_text (str): Text to display on download button (e.g. 'click here to download file')
+
+            Returns:
+            -------
+            (str): the anchor tag to download object_to_download
+
+            """
+
+            try:
+                # some strings <-> bytes conversions necessary here
+                b64 = base64.b64encode(object_to_download.encode()).decode()
+
+            except AttributeError as e:
+                b64 = base64.b64encode(object_to_download).decode()
+
+            button_uuid = str(uuid.uuid4()).replace('-', '')
+            button_id = re.sub('\d+', '', button_uuid)
+
+            custom_css = f""" 
+                <style>
+                    #{button_id} {{
+                        background-color: rgb(255, 255, 255);
+                        color: rgb(38, 39, 48);
+                        padding: 0.25em 0.38em;
+                        position: relative;
+                        text-decoration: none;
+                        border-radius: 4px;
+                        border-width: 1px;
+                        border-style: solid;
+                        border-color: rgb(230, 234, 241);
+                        border-image: initial;
+
+                    }} 
+                    #{button_id}:hover {{
+                        border-color: rgb(246, 51, 102);
+                        color: rgb(246, 51, 102);
+                    }}
+                    #{button_id}:active {{
+                        box-shadow: none;
+                        background-color: rgb(246, 51, 102);
+                        color: white;
+                        }}
+                </style> """
+
+            dl_link = custom_css + f'<a download="{download_filename}" id="{button_id}" href="data:file/txt;base64,{b64}">{button_text}</a><br></br>'
+
+            return dl_link
+
+
+        def file_selector(folder_path='data'):
+            filenames = os.listdir(folder_path)
+            selected_filename = 'data_sample.csv'
+            return os.path.join(folder_path, selected_filename)
+
+        filename = file_selector()
+
+        # Load selected file
+        with open(filename, 'rb') as f:
+            s = f.read()
+
+        download_button_str = download_button(s, filename, 'Click here to download sample file')
+        st.sidebar.markdown(download_button_str, unsafe_allow_html=True)
 
         # Load cleaned dataset
         insurance_clean = pd.read_csv('data/data_clean.csv')
